@@ -7,7 +7,7 @@ describe "Item API" do
 
     expect(response).to be_success
 
-    item = JSON.parse(response.body)
+    items = JSON.parse(response.body)
     expect(items.count).to eq(3)
   end
 end
