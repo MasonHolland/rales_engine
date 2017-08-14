@@ -10,9 +10,18 @@ describe "Item API" do
     items = JSON.parse(response.body)
     expect(items.count).to eq(3)
   end
-  it "sends one item by its id" do
+  it "gets one item by its id" do
     id = create(:item).id
     get "/api/v1/items/#{id}"
+
+    expect(response).to be_success
+
+    item = JSON.parse(response.body)
+    expect(item["id"]).to eq(id)
+  end
+  it "finds one item by case insensitive name" do
+    id = create(:item, name: "TV").id
+    get "/api/v1/items/find?name=tv"
 
     expect(response).to be_success
 
