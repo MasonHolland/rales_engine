@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe "merchants API" do
   it "sends a single merchant" do
-    item = create(:merchant)
+    merchant = create(:merchant)
 
-    get "/api/v1/merchant/#{item.id}"
+    get "/api/v1/merchants/#{merchant.id}"
 
     expect(response).to be_success
   end
