@@ -19,6 +19,7 @@ gem 'factory_girl_rails'
 
 group :development, :test do
   gem 'pry'
+  gem 'shoulda-matchers'
 end
 
 group :development do
