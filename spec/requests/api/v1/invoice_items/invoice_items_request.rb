@@ -86,7 +86,7 @@ describe "InvoiceItems API" do
     invoice_item = JSON.parse(response.body)
     expect(invoice_item["id"]).to eq(id)
   end
-  it "finds multiple invoices by item_id" do
+  it "finds multiple invoice_items by item_id" do
     create_list(:item,2)
     create_list(:invoice_item, 3, item_id: Item.first.id)
     create(:invoice_item, item_id: Item.second.id)
@@ -97,7 +97,7 @@ describe "InvoiceItems API" do
     expect(invoice_items.count).to eq(3)
     expect(invoice_items.sample["item_id"]).to eq(Item.first.id)
   end
-  it "finds multiple invoices by invoice_id" do
+  it "finds multiple invoice_items by invoice_id" do
     create_list(:invoice, 2)
     create_list(:invoice_item, 3, invoice_id: Invoice.first.id)
     create(:invoice_item, invoice_id: Invoice.second.id)
@@ -108,7 +108,7 @@ describe "InvoiceItems API" do
     expect(invoice_items.count).to eq(3)
     expect(invoice_items.sample["invoice_id"]).to eq(Invoice.first.id)
   end
-  it "finds multiple invoices by quantity" do
+  it "finds multiple invoice_items by quantity" do
     create_list(:invoice_item, 3, quantity: 5)
     create(:invoice_item, quantity: 2)
     get "/api/v1/invoice_items/find_all?quantity=5"
@@ -118,7 +118,7 @@ describe "InvoiceItems API" do
     expect(invoice_items.count).to eq(3)
     expect(invoice_items.sample["quantity"]).to eq(5)
   end
-  it "finds multiple invoices by unit_price" do
+  it "finds multiple invoice_items by unit_price" do
     create_list(:invoice_item, 3, unit_price: 5.99)
     create(:invoice_item, unit_price: 2.99)
     get "/api/v1/invoice_items/find_all?unit_price=5.99"
@@ -128,7 +128,7 @@ describe "InvoiceItems API" do
     expect(invoice_items.count).to eq(3)
     expect(invoice_items.sample["unit_price"]).to eq(5.99)
   end
-  it "finds multiple invoices by created_at" do
+  it "finds multiple invoice_items by created_at" do
     create_list(:invoice_item, 3, created_at: "15 May 2017")
     create(:invoice_item, created_at: 2.99)
     get "/api/v1/invoice_items/find_all?created_at=15 May 2017"
@@ -137,7 +137,7 @@ describe "InvoiceItems API" do
     invoice_items = JSON.parse(response.body)
     expect(invoice_items.count).to eq(3)
   end
-  it "finds multiple invoices by updated_at" do
+  it "finds multiple invoice_items by updated_at" do
     create_list(:invoice_item, 3, updated_at: "15 May 2017")
     create(:invoice_item, updated_at: 2.99)
     get "/api/v1/invoice_items/find_all?updated_at=15 May 2017"
