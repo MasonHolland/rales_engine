@@ -19,12 +19,20 @@ describe "Item API" do
     item = JSON.parse(response.body)
     expect(item["id"]).to eq(id)
   end
-  it "finds one item by case insensitive name" do
-    id = create(:item, name: "TV").id
+  it "finds one item by name" do
+    id = create(:item, name: "tv").id
     get "/api/v1/items/find?name=tv"
 
     expect(response).to be_success
 
+    item = JSON.parse(response.body)
+    expect(item["id"]).to eq(id)
+  end
+  it "finds one item by created_at" do
+    id = create(:item, created_at: "15 May 2017").id
+    get "/api/v1/items/find?created_at=15 May 2017"
+
+    expect(response).to be_success
     item = JSON.parse(response.body)
     expect(item["id"]).to eq(id)
   end
