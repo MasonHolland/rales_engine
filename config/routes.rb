@@ -26,7 +26,7 @@ Rails.application.routes.draw do
         collection do
           get 'find', to: 'invoices/search#show'
           get 'find_all', to: 'invoices/search#index'
-          get 'random', to: 'invoices/search#show'
+          get 'random', to: 'invoices/random#show'
         end
       end
     end

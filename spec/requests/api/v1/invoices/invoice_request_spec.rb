@@ -138,5 +138,13 @@ describe "Invoice API" do
     invoices = JSON.parse(response.body)
     expect(invoices.count).to eq(3)
   end
+  it "finds a random invoice" do
+    create_list(:invoice, 3)
 
+    get "/api/v1/invoices/random.json"
+
+    expect(response).to be_success
+    invoice = JSON.parse(response.body)
+    expect(invoice.count).to eq(1)
+  end
 end
