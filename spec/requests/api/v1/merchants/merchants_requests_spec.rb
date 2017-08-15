@@ -39,7 +39,7 @@ describe "merchants API" do
     merchant_2 = Merchant.create(name: "Purveyor of Goods")
     merchant_3 = Merchant.create(name: "Purveyor of Resources")
 
-    get "/api/v1/merchants/find?name=Purveyor_of_Wears"
+    get "/api/v1/merchants/find?name=Purveyor of Wears"
 
     expect(response).to be_success
 
@@ -94,14 +94,14 @@ describe "merchants API" do
     merchant_2 = Merchant.create(name: "Purveyor of Goods")
     merchant_3 = Merchant.create(name: "Purveyor of Resources")
 
-    get "/api/v1/merchants/find_all?name=Purveyor_of_Wears"
+    get "/api/v1/merchants/find_all?name=Purveyor of Wears"
 
     expect(response).to be_success
 
-    purveyor = JSON.parse(response.body)
+    purveyors = JSON.parse(response.body)
 
-    expect(purveyor["name"]).to eq("Purveyor of Wears")
-    expect(purveyor["id"]).to eq(merchant_1.id)
+    expect(purveyors.first["name"]).to eq("Purveyor of Wears")
+    expect(purveyors.first["id"]).to eq(merchant_1.id)
   end
 
   it "sends all applicable records when provided with an id" do
@@ -146,5 +146,17 @@ describe "merchants API" do
     expect(purveyors.first["id"]).to eq(merchant_1.id)
     expect(purveyors.last["name"]).to eq("Purveyor of Goods")
     expect(purveyors.last["id"]).to eq(merchant_2.id)
+  end
+
+  it "returns a random entry" do
+    create_list(:merchant, 5)
+
+    get "/api/v1/merchants/random"
+
+    expect(response).to be_success
+
+    purveyor = JSON.parse(response.body)
+
+    expect(purveyor.count).to eq(1)
   end
 end
