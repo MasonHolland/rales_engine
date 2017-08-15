@@ -16,6 +16,13 @@ Rails.application.routes.draw do
           get 'random', to: 'customers/random#show'
         end
       end
+      resources :transactions, only: [:show, :index], controller: "transactions/transactions" do
+        collection do
+          get 'find', to: 'transactions/find#show'
+          get 'find_all', to: 'transactions/find#index'
+          get 'random', to: 'transactions/random#show'
+        end
+      end
       resources :items, only: [:show, :index], controller: "items/items" do
         collection do
           get 'find', to: 'items/search#show'
