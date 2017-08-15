@@ -6,7 +6,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/#{transaction.id}"
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
     expect(exchange["id"]).to eq(transaction.id)
@@ -18,7 +18,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions"
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
     expect(exchange.count).to eq(5)
@@ -30,7 +30,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find", params: { id: transaction.id }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
 
@@ -42,7 +42,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find", params: { invoice_id: transaction.invoice_id }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
 
@@ -54,7 +54,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find", params: { credit_card_number: transaction.credit_card_number }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
 
@@ -68,7 +68,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find", params: { result: "failure" }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
 
@@ -81,7 +81,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find", params: { created_at: transaction.created_at }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
 
@@ -93,7 +93,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find", params: { updated_at: transaction.updated_at }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
 
@@ -106,7 +106,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find_all", params: { id: transaction.id }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchanges = JSON.parse(response.body)
 
@@ -115,13 +115,14 @@ describe "transaction API" do
   end
 
   it "sends all applicable results when provided with an invoice id" do
-    transaction_1 = create(:transaction, invoice_id: 2)
-    transaction_2 = create(:transaction, invoice_id: 2)
+    invoice = create(:invoice)
+    transaction_1 = create(:transaction, invoice_id: invoice.id)
+    transaction_2 = create(:transaction, invoice_id: invoice.id)
     transactions = create_list(:transaction, 5)
 
     get "/api/v1/transactions/find_all", params: { invoice_id: transaction_1.invoice_id }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchanges = JSON.parse(response.body)
 
@@ -137,7 +138,7 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find_all", params: { credit_card_number: "4580251236515201" }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchanges = JSON.parse(response.body)
 
@@ -153,7 +154,23 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find_all", params: { result: "failure" }
 
-    expect(result).to be_success
+    expect(response).to be_success
+
+    exchanges = JSON.parse(response.body)
+
+    expect(exchanges.count).to eq(2)
+    expect(exchanges.first["id"]).to eq(transaction_1.id)
+    expect(exchanges.last["id"]).to eq(transaction_2.id)
+  end
+
+  it "sends all applicable results when provided with a case sensitive result" do
+    transactions = create_list(:transaction, 5)
+    transaction_1 = create(:transaction, result: "failure")
+    transaction_2 = create(:transaction, result: "failure")
+
+    get "/api/v1/transactions/find_all", params: { result: "FAILURE" }
+
+    expect(response).to be_success
 
     exchanges = JSON.parse(response.body)
 
@@ -169,9 +186,9 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find_all", params: { created_at: "28 February 2014" }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)
 
     expect(exchanges.count).to eq(2)
     expect(exchanges.first["id"]).to eq(transaction_1.id)
@@ -185,20 +202,20 @@ describe "transaction API" do
 
     get "/api/v1/transactions/find_all", params: { updated_at: "12 September 2002" }
 
-    expect(result).to be_success
+    expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)
     expect(exchanges.count).to eq(2)
     expect(exchanges.first["id"]).to eq(transaction_1.id)
     expect(exchanges.last["id"]).to eq(transaction_2.id)
   end
 
   it "returns a random record" do
-    create(:transaction, 5)
+    create_list(:transaction, 5)
 
     get "/api/v1/transactions/random"
 
-    expect(result).to be_success
+    expect(response).to be_success
 
     exchange = JSON.parse(response.body)
 
