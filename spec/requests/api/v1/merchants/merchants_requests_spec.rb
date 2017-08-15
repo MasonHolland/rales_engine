@@ -15,11 +15,11 @@ describe "merchants API" do
   end
 
   it "sends a list of merchants" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods")
-    merchant_3 = Merchant.create(name: "Purveyor of Resources")
-    merchant_4 = Merchant.create(name: "Purveyor of Arms")
-    merchant_5 = Merchant.create(name: "Purveyor of Armor")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods")
+    merchant_3 = create(:merchant, name: "Purveyor of Resources")
+    merchant_4 = create(:merchant, name: "Purveyor of Arms")
+    merchant_5 = create(:merchant, name: "Purveyor of Armor")
 
 
     get "/api/v1/merchants"
@@ -35,11 +35,11 @@ describe "merchants API" do
   end
 
   it "sends a record when provided with a name" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods")
-    merchant_3 = Merchant.create(name: "Purveyor of Resources")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods")
+    merchant_3 = create(:merchant, name: "Purveyor of Resources")
 
-    get "/api/v1/merchants/find?name=Purveyor of Wears"
+    get "/api/v1/merchants/find", params: { name: "Purveyor of Wears" }
 
     expect(response).to be_success
 
@@ -50,11 +50,11 @@ describe "merchants API" do
   end
 
   it "sends a record when provided with an id" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods")
-    merchant_3 = Merchant.create(name: "Purveyor of Resources")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods")
+    merchant_3 = create(:merchant, name: "Purveyor of Resources")
 
-    get "/api/v1/merchants/find?id=#{merchant_2.id}"
+    get "/api/v1/merchants/find", params: { id: merchant_2.id }
 
     expect(response).to be_success
 
@@ -65,11 +65,11 @@ describe "merchants API" do
   end
 
   it "sends a record when provided with a created at date" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears", created_at: "July 26 1999")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods", created_at: "June 19 2001")
-    merchant_3 = Merchant.create(name: "Purveyor of Resources", created_at: "May 12 2015")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears", created_at: "July 26 1999")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods", created_at: "June 19 2001")
+    merchant_3 = create(:merchant, name: "Purveyor of Resources", created_at: "May 12 2015")
 
-    get "/api/v1/merchants/find?created_at=19 June 2001"
+    get "/api/v1/merchants/find", params: { created_at: "19 June 2001" }
 
     purveyor = JSON.parse(response.body)
 
@@ -78,10 +78,10 @@ describe "merchants API" do
   end
 
   it "sends a record when provided with an updated at date" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears", created_at: "July 26 1999", updated_at: Time.now)
-    merchant_2 = Merchant.create(name: "Purveyor of Goods", created_at: "June 19 2001", updated_at: "July 19 2017")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears", created_at: "July 26 1999", updated_at: Time.now)
+    merchant_2 = create(:merchant, name: "Purveyor of Goods", created_at: "June 19 2001", updated_at: "July 19 2017")
 
-    get "/api/v1/merchants/find?updated_at=19 July 2017"
+    get "/api/v1/merchants/find", params: { updated_at: "19 July 2017" }
 
     purveyor = JSON.parse(response.body)
 
@@ -90,11 +90,11 @@ describe "merchants API" do
   end
 
   it "sends all applicable records when provided with a name" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods")
-    merchant_3 = Merchant.create(name: "Purveyor of Resources")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods")
+    merchant_3 = create(:merchant, name: "Purveyor of Resources")
 
-    get "/api/v1/merchants/find_all?name=Purveyor of Wears"
+    get "/api/v1/merchants/find_all", params: { name: "Purveyor of Wears" }
 
     expect(response).to be_success
 
@@ -105,11 +105,11 @@ describe "merchants API" do
   end
 
   it "sends all applicable records when provided with an id" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods")
-    merchant_3 = Merchant.create(name: "Purveyor of Resources")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods")
+    merchant_3 = create(:merchant, name: "Purveyor of Resources")
 
-    get "/api/v1/merchants/find_all?id=#{merchant_2.id}"
+    get "/api/v1/merchants/find_all", params: { id: merchant_2.id }
 
     expect(response).to be_success
 
@@ -120,11 +120,11 @@ describe "merchants API" do
   end
 
   it "sends all applicable records when provided with a created at date" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears", created_at: "July 26 1999")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods", created_at: "June 19 2001")
-    merchant_3 = Merchant.create(name: "Purveyor of Resources", created_at: "June 19 2001")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears", created_at: "July 26 1999")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods", created_at: "June 19 2001")
+    merchant_3 = create(:merchant, name: "Purveyor of Resources", created_at: "June 19 2001")
 
-    get "/api/v1/merchants/find_all?created_at=19 June 2001"
+    get "/api/v1/merchants/find_all", params: { created_at: "19 June 2001" }
 
     purveyors = JSON.parse(response.body)
 
@@ -135,10 +135,10 @@ describe "merchants API" do
   end
 
   it "sends all applicable records when provided with an updated at date" do
-    merchant_1 = Merchant.create(name: "Purveyor of Wears", created_at: "July 26 1999", updated_at: "July 19 2017")
-    merchant_2 = Merchant.create(name: "Purveyor of Goods", created_at: "June 19 2001", updated_at: "July 19 2017")
+    merchant_1 = create(:merchant, name: "Purveyor of Wears", created_at: "July 26 1999", updated_at: "July 19 2017")
+    merchant_2 = create(:merchant, name: "Purveyor of Goods", created_at: "June 19 2001", updated_at: "July 19 2017")
 
-    get "/api/v1/merchants/find_all?updated_at=19 July 2017"
+    get "/api/v1/merchants/find_all", params: { updated_at: "19 July 2017" }
 
     purveyors = JSON.parse(response.body)
 
