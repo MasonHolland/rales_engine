@@ -20,6 +20,7 @@ gem 'factory_girl_rails'
 group :development, :test do
   gem 'pry'
   gem 'shoulda-matchers'
+  gem 'byebug'
 end
 
 group :development do
