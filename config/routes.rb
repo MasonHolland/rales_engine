@@ -13,6 +13,7 @@ Rails.application.routes.draw do
         collection do
           get 'find', to: 'customers/find#show'
           get 'find_all', to: 'customers/find#index'
+          get 'random', to: 'customers/random#show'
         end
       end
     end

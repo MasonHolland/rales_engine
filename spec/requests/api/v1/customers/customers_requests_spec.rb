@@ -180,6 +180,7 @@ describe "customers API" do
   end
 
   it "returns a random entry" do
+    create_list(:customer, 10)
 
     get "/api/v1/customers/random"
 
@@ -187,6 +188,6 @@ describe "customers API" do
 
     patron = JSON.parse(response.body)
 
-    expect(customer.count).to eq(1)
+    expect(patron.count).to eq(1)
   end
 end
