@@ -88,5 +88,64 @@ describe "Item API" do
     expect(response).to be_success
     items = JSON.parse(response.body)
     expect(items.count).to eq(3)
+    expect(items.sample["name"]).to eq("tv")
+  end
+  it "finds multiple items by description" do
+    create_list(:item, 3, description: "a really great item")
+    create(:item, description: "the worst item")
+    get "/api/v1/items/find_all?description=a really great item"
+
+    expect(response).to be_success
+    items = JSON.parse(response.body)
+    expect(items.count).to eq(3)
+    expect(items.sample["description"]).to eq("a really great item")
+  end
+  it "finds multiple items by unit_price" do
+    create_list(:item, 3, unit_price: 6.99)
+    create(:item, unit_price: 7.99)
+    get "/api/v1/items/find_all?unit_price=6.99"
+
+    expect(response).to be_success
+    items = JSON.parse(response.body)
+    expect(items.count).to eq(3)
+    expect(items.sample["unit_price"]).to eq(6.99)
+  end
+  it "finds multiple items by merchant_id" do
+    create_list(:merchant, 2)
+    create_list(:item, 3, merchant_id: Merchant.first.id)
+    create(:item, merchant_id: Merchant.second.id)
+    get "/api/v1/items/find_all?merchant_id=#{Merchant.first.id}"
+
+    expect(response).to be_success
+    items = JSON.parse(response.body)
+    expect(items.count).to eq(3)
+    expect(items.sample["merchant_id"]).to eq(Merchant.first.id)
+  end
+  it "finds multiple items by created_at" do
+    create_list(:item, 3, created_at: "15 May 2017")
+    create(:item, created_at: "16 May 2017")
+    get "/api/v1/items/find_all?created_at=15 May 2017"
+
+    expect(response).to be_success
+    items = JSON.parse(response.body)
+    expect(items.count).to eq(3)
+  end
+  it "finds multiple items by updated_at" do
+    create_list(:item, 3, updated_at: "15 May 2017")
+    create(:item, updated_at: "16 May 2017")
+    get "/api/v1/items/find_all?updated_at=15 May 2017"
+
+    expect(response).to be_success
+    items = JSON.parse(response.body)
+    expect(items.count).to eq(3)
+  end
+  it "finds a random item" do
+    create_list(:item, 3)
+
+    get "/api/v1/items/random.json"
+
+    expect(response).to be_success
+    item = JSON.parse(response.body)
+    expect(item.count).to eq(1)
   end
 end
