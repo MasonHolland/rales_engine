@@ -23,7 +23,7 @@ describe "InvoiceItems API" do
   it "finds one invoice_item by id" do
     id = create(:invoice_item).id
     create(:invoice_item)
-    get "/api/v1/invoice_items/#{id}"
+    get "/api/v1/invoice_items/find?id=#{id}"
 
     expect(response).to be_success
 
