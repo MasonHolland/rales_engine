@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
-  merchant = create(:merchant, name: "Purveyor")
+  merchant = Merchant.new(name: "Purveyor")
 
   it "is valid with valid attributes" do
     expect(merchant).to be_valid

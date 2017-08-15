@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
-  customer = create(:customer)
+  customer = Customer.new(first_name: "Finn", last_name: "The Human")
 
   it "is valid with valid attributes" do
     expect(customer).to be_valid

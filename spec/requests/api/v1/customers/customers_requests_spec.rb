@@ -10,10 +10,10 @@ describe "customers API" do
 
     patron = JSON.parse(response.body)
 
-    expect(patron.id).to eq(customer.id)
+    expect(patron["id"]).to eq(customer.id)
   end
 
-  xit "sends a list of customers" do
+  it "sends a list of customers" do
     customers = create_list(:customer, 5)
 
     get "/api/v1/customers"
@@ -22,10 +22,10 @@ describe "customers API" do
 
     patrons = JSON.parse(response.body)
 
-    expect(patronss.count).to eq(5)
+    expect(patrons.count).to eq(5)
   end
 
-  xit "sends a record when provided with an id" do
+  it "sends a record when provided with an id" do
     customer_1 = create(:customer, first_name: "Paul")
     customer_2 = create(:customer, first_name: "Doug")
 
@@ -39,7 +39,7 @@ describe "customers API" do
     expect(patron["name"]).to eq("Paul")
   end
 
-  xit "sends a record when provided with a first name" do
+  it "sends a record when provided with a first name" do
     customer = create(:customer, first_name: "Sam")
 
     get "/api/v1/customers/find", params: { first_name: "Sam" }
@@ -52,7 +52,7 @@ describe "customers API" do
     expect(patron["first_name"]).to eq("Sam")
   end
 
-  xit "sends a record when provided with a last name" do
+  it "sends a record when provided with a last name" do
     customer = create(:customer, last_name: "Volsung")
 
     get "/api/v1/customers/find", params: { last_name: "Volsung" }
@@ -65,7 +65,7 @@ describe "customers API" do
     expect(patron["last_name"]).to eq("Volsung")
   end
 
-  xit "sends a record when provided a created_at date" do
+  it "sends a record when provided a created_at date" do
     customer = create(:customer, created_at: "12 June 1999")
 
     get "/api/v1/customers/find", params: { created_at: "12 June 1999" }
@@ -78,7 +78,7 @@ describe "customers API" do
     expect(patron["first_name"]).to eq(customer.first_name)
   end
 
-  xit "sends a record when provided an updated_at date" do
+  it "sends a record when provided an updated_at date" do
     customer = create(:customer, updated_at: "26 August 2011")
 
     get "/api/v1/customers/find", params: { updated_at: "26 August 2011" }
