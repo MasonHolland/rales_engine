@@ -160,7 +160,7 @@ describe "InvoiceItems API" do
     get "/api/v1/invoice_items/random"
 
     expect(response).to be_success
-    invoice_items = JSON.parse(response.body)
-    expect(invoice_items.count).to eq(1)
+    invoice_item = JSON.parse(response.body)
+    expect(invoice_item.count).to eq(1)
   end
 end

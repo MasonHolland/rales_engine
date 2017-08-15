@@ -29,7 +29,7 @@ describe "Invoice API" do
     expect(response).to be_success
 
     invoice = JSON.parse(response.body)
-    byebug
+    
     expect(invoice["id"]).to eq(id)
   end
   it "finds one invoice by merchant_id" do
