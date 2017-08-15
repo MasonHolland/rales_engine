@@ -6,7 +6,7 @@ describe "Item API" do
     get "/api/v1/items"
 
     expect(response).to be_success
-    
+
     items = JSON.parse(response.body)
     expect(items.count).to eq(3)
   end
@@ -79,5 +79,14 @@ describe "Item API" do
     expect(response).to be_success
     item = JSON.parse(response.body)
     expect(item["id"]).to eq(id)
+  end
+  it "finds multiple items by name" do
+    create_list(:item, 3, name: "tv")
+    create(:item, name: "ipad")
+    get "/api/v1/items/find_all?name=tv"
+
+    expect(response).to be_success
+    items = JSON.parse(response.body)
+    expect(items.count).to eq(3)
   end
 end
