@@ -68,15 +68,6 @@ describe "InvoiceItems API" do
     invoice_item = JSON.parse(response.body)
     expect(invoice_item["id"]).to eq(id)
   end
-  it "finds one invoice_item by unit_price" do
-    id = create(:invoice_item, unit_price: 3.99).id
-    create(:invoice_item, unit_price: 3.99)
-    get "/api/v1/invoice_items/find?unit_price=3.99"
-
-    expect(response).to be_success
-    invoice_item = JSON.parse(response.body)
-    expect(invoice_item["id"]).to eq(id)
-  end
   it "finds one invoice_item by created_at" do
     id = create(:invoice_item, created_at: "15 June 2017").id
     create(:invoice_item, created_at: "15 June 2017")
