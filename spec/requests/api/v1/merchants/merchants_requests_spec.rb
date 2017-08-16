@@ -161,7 +161,7 @@ describe "merchants API" do
   end
   it "favorite customer returns customer with most successful transactions" do
     merchant = create(:merchant)
-    cust_1, cust_2 = create_list(:customers, 3)
+    cust_1, cust_2 = create_list(:customer, 3)
     inv_1, inv_2, inv_3 = create_list(:invoice, 3, customer: cust_1, merchant: merchant)
     inv_4, inv_5 = create_list(:invoice, 2, customer: cust_2, merchant: merchant)
     create_list(:transaction, 2, result: "failed", invoice: inv_1)
@@ -174,7 +174,6 @@ describe "merchants API" do
 
     expect(response).to be_success
     customer = JSON.parse(response.body)
-    expect(customer.count).to eq(1)
-    expect(customer.id).to eq(cust_2.id)
+    expect(customer["id"]).to eq(cust_2.id)
   end
 end
