@@ -10,4 +10,9 @@ class Merchant < ApplicationRecord
             .first
 
   end
+
+  def most_revenue(quantity)
+
+  end
+
 end

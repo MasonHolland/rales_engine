@@ -188,7 +188,6 @@ describe "merchants API" do
     create(:invoice_item, invoice: inv_3, quantity: 6, unit_price: 2)
     create(:invoice_item, invoice: inv_4, quantity: 2, unit_price: 12)
 
-
     get "/api/v1/merchants/most_revenue?quantity=2"
 
     expect(response).to be_success
