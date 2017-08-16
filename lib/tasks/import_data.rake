@@ -72,11 +72,11 @@ namespace :import do
     csv = CSV.parse(file, :headers => true, :header_converters => :symbol)
     csv.each do |row|
       transaction = Transaction.create!(
-        credit_card_number: row["credit_card_number"],
-        result: row["result"],
-        invoice_id: row["invoice_id"],
-        created_at: row["created_at"],
-        updated_at: row["updated_at"]
+        credit_card_number: row[:credit_card_number],
+        result: row[:result],
+        invoice_id: row[:invoice_id],
+        created_at: row[:created_at],
+        updated_at: row[:updated_at]
       )
       puts "created transaction #{transaction.id}"
     end
