@@ -176,4 +176,25 @@ describe "merchants API" do
     customer = JSON.parse(response.body)
     expect(customer["id"]).to eq(cust_2.id)
   end
+  it "most revenue returns merchants with highest revenue" do
+    merch_1, merch_2, merch_3 = create_list(:merchant, 3)
+    inv_1, inv_2 = create_list(:invoice, 2, merchant: merch_1)
+    inv_3 = create(:invoice, merchant: merch_2)
+    inv_4 = create(:invoice, merchant: merch_3)
+    create(:invoice_item, invoice: inv_1, quantity: 2, unit_price: 6)
+    create(:invoice_item, invoice: inv_1, quantity: 2, unit_price: 6)
+    create(:invoice_item, invoice: inv_2, quantity: 2, unit_price: 6)
+    create(:invoice_item, invoice: inv_3, quantity: 1, unit_price: 20)
+    create(:invoice_item, invoice: inv_3, quantity: 6, unit_price: 2)
+    create(:invoice_item, invoice: inv_4, quantity: 2, unit_price: 12)
+
+
+    get "/api/v1/merchants/most_revenue?quantity=2"
+
+    expect(response).to be_success
+    merchants = JSON.parse(response.body)
+    expect(merchants.count).to eq(2)
+    expect(merchants.first["id"]).to eq(merch_1.id)
+    expect(merchants.last["id"]).to eq(merch_2.id)
+  end
 end
