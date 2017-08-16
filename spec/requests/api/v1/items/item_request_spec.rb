@@ -152,14 +152,14 @@ describe "Item API" do
     item_1, item_2, item_3 = create_list(:item, 3)
     create(:invoice_item, item: item_1, quantity: 2, unit_price: 5)
     create(:invoice_item, item: item_2, quantity: 3, unit_price: 4)
-    create(:invoice_item, item: item_3, quantity: 1, unit_price: 10)
+    create(:invoice_item, item: item_3, quantity: 1, unit_price: 11)
 
     get "/api/v1/items/most_revenue?quantity=2"
 
     expect(response).to be_success
     items = JSON.parse(response.body)
     expect(items.count).to eq(2)
-    expect(items.first.id).to eq(item_2.id)
-    expect(items.last.id).to eq(item_3.id)
+    expect(items.first["id"]).to eq(item_2.id)
+    expect(items.last["id"]).to eq(item_3.id)
   end
 end
