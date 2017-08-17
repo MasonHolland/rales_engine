@@ -60,7 +60,7 @@ class Merchant < ApplicationRecord
                 .group("invoices.created_at")
                 .where("invoices.created_at = ?", date)[0].as_json(:except => :id)
   end
-  
+
   private
     def self.successful_invoices
       invoices
