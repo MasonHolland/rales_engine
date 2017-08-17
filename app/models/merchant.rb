@@ -5,13 +5,13 @@ class Merchant < ApplicationRecord
   has_many :invoice_items, through: :invoices
   has_many :transactions, through: :invoices
 
-  def self.total_revenue(date = nil)
+  def total_revenue(date = nil)
     if date == nil
-      successful_invoices
+      self.successful_invoices
       .sum("invoice_items.quantity * invoice_items.unit_price")
     else
       day = Date.parse(date)
-      successful_invoices
+      self.successful_invoices
       .where(invoices: { created_at: day.midnight..day.end_of_day })
       .sum("invoice_items.quantity * invoice_items.unit_price")
     end
@@ -61,10 +61,9 @@ class Merchant < ApplicationRecord
                 .where("invoices.created_at = ?", date)[0].as_json(:except => :id)
   end
 
-  private
-    def self.successful_invoices
-      invoices
-      .joins(:invoice_items, :transactions)
-      .merge(Transaction.successful)
-    end
+  def successful_invoices
+    self.invoices
+    .joins(:invoice_items, :transactions)
+    .merge(Transaction.successful)
+  end
 end
