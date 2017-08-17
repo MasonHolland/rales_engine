@@ -4,11 +4,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :merchants, only: [:show, :index], controller: "merchants/merchants" do
         collection do
-          get 'find', to: 'merchants/find#show'
+          get 'find',     to: 'merchants/find#show'
           get 'find_all', to: 'merchants/find#index'
-          get 'random', to: 'merchants/random#show'
+          get 'random',   to: 'merchants/random#show'
           #business intelligence
-          get 'revenue', to: 'merchants/revenue#show'
+          get ':id/revenue',    to: 'merchants/revenue#show'
           get 'most_items', to: 'merchants/most_items#index'
         end
       end
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
           get 'find_all', to: 'customers/find#index'
           get 'random',   to: 'customers/random#show'
           #business intelligence
-          get 'favorite_merchant', to: 'customers/favorite_merchant#show'
+          get ':id/favorite_merchant', to: 'customers/favorite_merchant#show'
         end
       end
       resources :transactions, only: [:show, :index], controller: "transactions/transactions" do
@@ -34,8 +34,8 @@ Rails.application.routes.draw do
           get 'find_all', to: 'items/search#index'
           get 'random',   to: 'items/random#show'
           #relationships
-          get 'invoice_items', to: 'items/items#index'
-          get 'merchant',      to: 'items/merchant#show'
+          get ':id/invoice_items', to: 'items/invoice_items#index'
+          get ':id/merchant',      to: 'items/merchant#show'
           #business intelligence
           get 'most_items',    to: 'items/most_items#index'
         end
@@ -46,11 +46,11 @@ Rails.application.routes.draw do
           get 'find_all', to: 'invoices/search#index'
           get 'random',   to: 'invoices/random#show'
           #relationships
-          get 'transactions',  to: 'invoices/transactions#index'
-          get 'invoice_items', to: 'invoices/invoice_items#index'
-          get 'items',         to: 'invoices/items#index'
-          get 'customer',      to: 'invoices/customer#show'
-          get 'merchant',      to: 'invoices/merchant#show'
+          get ':id/transactions',  to: 'invoices/transactions#index'
+          get ':id/invoice_items', to: 'invoices/invoice_items#index'
+          get ':id/items',         to: 'invoices/items#index'
+          get ':id/customer',      to: 'invoices/customer#show'
+          get ':id/merchant',      to: 'invoices/merchant#show'
         end
 
       end
@@ -59,6 +59,9 @@ Rails.application.routes.draw do
           get 'find',     to: 'invoice_items/search#show'
           get 'find_all', to: 'invoice_items/search#index'
           get 'random',   to: 'invoice_items/random#show'
+          #relationships
+          get ':id/invoice', to: 'invoice_items/invoice#show'
+          get ':id/item',    to: 'invoice_items/item#show'
         end
       end
     end
