@@ -8,10 +8,9 @@ describe "merchants API" do
 
     expect(response).to be_success
 
-    purveyor = JSON.parse(response.body)
+    purveyor = JSON.parse(response.body)["data"]
 
-    expect(purveyor["name"]).to eq("PurveyorOfWears")
-    expect(purveyor["id"]).to eq(merchant.id)
+    expect(purveyor["id"]).to eq(merchant.id.to_s)
   end
 
   it "sends a list of merchants" do
@@ -26,12 +25,9 @@ describe "merchants API" do
 
     expect(response).to be_success
 
-    purveyors = JSON.parse(response.body)
+    purveyors = JSON.parse(response.body)["data"]
 
-    expect(purveyors.first["name"]).to eq("Purveyor of Wears")
-    expect(purveyors.first["id"]).to eq(merchant_1.id)
-    expect(purveyors.last["name"]).to eq("Purveyor of Armor")
-    expect(purveyors.last["id"]).to eq(merchant_5.id)
+    expect(purveyors.last["id"]).to eq(merchant_5.id.to_s)
   end
 
   it "sends a record when provided with a name" do
@@ -43,10 +39,9 @@ describe "merchants API" do
 
     expect(response).to be_success
 
-    purveyor = JSON.parse(response.body)
+    purveyor = JSON.parse(response.body)["data"]
 
-    expect(purveyor["name"]).to eq("Purveyor of Wears")
-    expect(purveyor["id"]).to eq(merchant_1.id)
+    expect(purveyor["id"]).to eq(merchant_1.id.to_s)
   end
 
   it "sends a record when provided with an id" do
@@ -58,10 +53,9 @@ describe "merchants API" do
 
     expect(response).to be_success
 
-    purveyor = JSON.parse(response.body)
+    purveyor = JSON.parse(response.body)["data"]
 
-    expect(purveyor["name"]).to eq("Purveyor of Goods")
-    expect(purveyor["id"]).to eq(merchant_2.id)
+    expect(purveyor["id"]).to eq(merchant_2.id.to_s)
   end
 
   it "sends a record when provided with a created at date" do
@@ -71,10 +65,9 @@ describe "merchants API" do
 
     get "/api/v1/merchants/find", params: { created_at: "19 June 2001" }
 
-    purveyor = JSON.parse(response.body)
+    purveyor = JSON.parse(response.body)["data"]
 
-    expect(purveyor["name"]).to eq("Purveyor of Goods")
-    expect(purveyor["id"]).to eq(merchant_2.id)
+    expect(purveyor["id"]).to eq(merchant_2.id.to_s)
   end
 
   it "sends a record when provided with an updated at date" do
@@ -83,10 +76,9 @@ describe "merchants API" do
 
     get "/api/v1/merchants/find", params: { updated_at: "19 July 2017" }
 
-    purveyor = JSON.parse(response.body)
+    purveyor = JSON.parse(response.body)["data"]
 
-    expect(purveyor["name"]).to eq("Purveyor of Goods")
-    expect(purveyor["id"]).to eq(merchant_2.id)
+    expect(purveyor["id"]).to eq(merchant_2.id.to_s)
   end
 
   it "sends all applicable records when provided with a name" do
@@ -98,10 +90,9 @@ describe "merchants API" do
 
     expect(response).to be_success
 
-    purveyors = JSON.parse(response.body)
+    purveyors = JSON.parse(response.body)["data"]
 
-    expect(purveyors.first["name"]).to eq("Purveyor of Wears")
-    expect(purveyors.first["id"]).to eq(merchant_1.id)
+    expect(purveyors.first["id"]).to eq(merchant_1.id.to_s)
   end
 
   it "sends all applicable records when provided with an id" do
@@ -113,10 +104,9 @@ describe "merchants API" do
 
     expect(response).to be_success
 
-    purveyors = JSON.parse(response.body)
+    purveyors = JSON.parse(response.body)["data"]
 
-    expect(purveyors.first["name"]).to eq("Purveyor of Goods")
-    expect(purveyors.first["id"]).to eq(merchant_2.id)
+    expect(purveyors.first["id"]).to eq(merchant_2.id.to_s)
   end
 
   it "sends all applicable records when provided with a created at date" do
@@ -126,12 +116,10 @@ describe "merchants API" do
 
     get "/api/v1/merchants/find_all", params: { created_at: "19 June 2001" }
 
-    purveyors = JSON.parse(response.body)
+    purveyors = JSON.parse(response.body)["data"]
 
-    expect(purveyors.first["name"]).to eq("Purveyor of Goods")
-    expect(purveyors.first["id"]).to eq(merchant_2.id)
-    expect(purveyors.last["name"]).to eq("Purveyor of Resources")
-    expect(purveyors.last["id"]).to eq(merchant_3.id)
+    expect(purveyors.first["id"]).to eq(merchant_2.id.to_s)
+    expect(purveyors.last["id"]).to eq(merchant_3.id.to_s)
   end
 
   it "sends all applicable records when provided with an updated at date" do
@@ -140,12 +128,10 @@ describe "merchants API" do
 
     get "/api/v1/merchants/find_all", params: { updated_at: "19 July 2017" }
 
-    purveyors = JSON.parse(response.body)
+    purveyors = JSON.parse(response.body)["data"]
 
-    expect(purveyors.first["name"]).to eq("Purveyor of Wears")
-    expect(purveyors.first["id"]).to eq(merchant_1.id)
-    expect(purveyors.last["name"]).to eq("Purveyor of Goods")
-    expect(purveyors.last["id"]).to eq(merchant_2.id)
+    expect(purveyors.first["id"]).to eq(merchant_1.id.to_s)
+    expect(purveyors.last["id"]).to eq(merchant_2.id.to_s)
   end
 
   it "returns a random entry" do
@@ -155,7 +141,7 @@ describe "merchants API" do
 
     expect(response).to be_success
 
-    purveyor = JSON.parse(response.body)
+    purveyor = JSON.parse(response.body)["data"]
 
     expect(purveyor.count).to eq(1)
   end
@@ -173,8 +159,8 @@ describe "merchants API" do
     get "/api/v1/merchants/#{merchant.id}/favorite_customer"
 
     expect(response).to be_success
-    customer = JSON.parse(response.body)
-    expect(customer["id"]).to eq(cust_2.id)
+    customer = JSON.parse(response.body)["data"]
+    expect(customer["id"]).to eq(cust_2.id.to_s)
   end
   it "most revenue returns merchants with highest revenue" do
     merch_1, merch_2, merch_3 = create_list(:merchant, 3)
@@ -191,10 +177,10 @@ describe "merchants API" do
     get "/api/v1/merchants/most_revenue?quantity=2"
 
     expect(response).to be_success
-    merchants = JSON.parse(response.body)
+    merchants = JSON.parse(response.body)["data"]
     expect(merchants.count).to eq(2)
-    expect(merchants.first["id"]).to eq(merch_1.id)
-    expect(merchants.last["id"]).to eq(merch_2.id)
+    expect(merchants.first["id"]).to eq(merch_1.id.to_s)
+    expect(merchants.last["id"]).to eq(merch_2.id.to_s)
   end
   it "sends total revenue by date for all merchants" do
     inv_1, inv_2 = create_list(:invoice, 2, created_at: "15 May 2017")
@@ -206,7 +192,7 @@ describe "merchants API" do
     get "/api/v1/merchants/revenue?date=15_May_2017"
 
     expect(response).to be_success
-    revenue = JSON.parse(response.body)
+    revenue = JSON.parse(response.body)["data"]
     expect(revenue["total_revenue"]).to eq("200.0")
   end
   xit "returns collection of customers with pending invoices" do
@@ -229,9 +215,9 @@ describe "merchants API" do
     get "/api/v1/merchants/#{merchant.id}/customers_with_pending_invoices"
 
     expect(response).to be_success
-    customers = JSON.parse(response.body)
+    customers = JSON.parse(response.body)["data"]
     expect(customers.count).to eq(2)
-    expect(customer.first["id"]).to eq(cust_1.id)
-    expect(customer.last["id"]).to eq(cust_2.id)
+    expect(customer.first["id"]).to eq(cust_1.id.to_s)
+    expect(customer.last["id"]).to eq(cust_2.id.to_s)
   end
 end
