@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       end
       resources :transactions, only: [:show, :index], controller: "transactions/transactions" do
         collection do
+          get ':id/invoice', to: 'transactions/invoices#index'
           get 'find',     to: 'transactions/find#show'
           get 'find_all', to: 'transactions/find#index'
           get 'random',   to: 'transactions/random#show'
