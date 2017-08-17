@@ -55,7 +55,7 @@ describe 'invoice relationships api', type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result.count).to eq(1)
+      expect(result["id"]).to eq(customer.id)
     end
   end
 
@@ -68,7 +68,7 @@ describe 'invoice relationships api', type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result.count).to eq(1)
+      expect(result["id"]).to eq(merchant.id)
     end
   end
 end

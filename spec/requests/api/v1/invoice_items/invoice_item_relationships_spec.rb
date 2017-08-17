@@ -10,7 +10,7 @@ describe 'invoice items relationships api', type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result.count).to eq(1)
+      expect(result["id"]).to eq(invoice.id)
     end
   end
   context 'GET /api/v1/invoice_items/:id/item' do
@@ -22,7 +22,7 @@ describe 'invoice items relationships api', type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result.count).to eq(1)
+      expect(result["id"]).to eq(item.id)
     end
   end
 end
