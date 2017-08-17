@@ -59,7 +59,6 @@ class Merchant < ApplicationRecord
                 .joins(:invoice)
                 .group("invoices.created_at")
                 .where("invoices.created_at = ?", date)[0].as_json(:except => :id)
-    #works except revenue value needs to be formatted as string; maybe serializer will help with this
   end
 
   private
