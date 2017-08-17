@@ -7,45 +7,51 @@ Rails.application.routes.draw do
           get 'find', to: 'merchants/find#show'
           get 'find_all', to: 'merchants/find#index'
           get 'random', to: 'merchants/random#show'
+          #business intelligence
           get 'revenue', to: 'merchants/revenue#show'
           get 'most_items', to: 'merchants/most_items#index'
         end
       end
       resources :customers, only: [:show, :index], controller: "customers/customers" do
         collection do
-          get 'find', to: 'customers/find#show'
+          get 'find',     to: 'customers/find#show'
           get 'find_all', to: 'customers/find#index'
-          get 'random', to: 'customers/random#show'
+          get 'random',   to: 'customers/random#show'
+          #business intelligence
           get 'favorite_merchant', to: 'customers/favorite_merchant#show'
         end
       end
       resources :transactions, only: [:show, :index], controller: "transactions/transactions" do
         collection do
-          get 'find', to: 'transactions/find#show'
+          get 'find',     to: 'transactions/find#show'
           get 'find_all', to: 'transactions/find#index'
-          get 'random', to: 'transactions/random#show'
+          get 'random',   to: 'transactions/random#show'
         end
       end
       resources :items, only: [:show, :index], controller: "items/items" do
         collection do
-          get 'find', to: 'items/search#show'
+          get 'find',     to: 'items/search#show'
           get 'find_all', to: 'items/search#index'
-          get 'random', to: 'items/random#show'
-          get 'most_items', to: 'items/most_items#index'
+          get 'random',   to: 'items/random#show'
+          #relationships
+          get 'invoice_items', to: 'items/items#index'
+          get 'merchant',      to: 'items/merchant#show'
+          #business intelligence
+          get 'most_items',    to: 'items/most_items#index'
         end
       end
       resources :invoices, only: [:show, :index], controller: "invoices/invoices" do
         collection do
-          get 'find', to: 'invoices/search#show'
+          get 'find',     to: 'invoices/search#show'
           get 'find_all', to: 'invoices/search#index'
-          get 'random', to: 'invoices/random#show'
+          get 'random',   to: 'invoices/random#show'
         end
       end
       resources :invoice_items, only: [:show, :index], controller: "invoice_items/invoice_items" do
         collection do
-          get 'find', to: 'invoice_items/search#show'
+          get 'find',     to: 'invoice_items/search#show'
           get 'find_all', to: 'invoice_items/search#index'
-          get 'random', to: 'invoice_items/random#show'
+          get 'random',   to: 'invoice_items/random#show'
         end
       end
     end
