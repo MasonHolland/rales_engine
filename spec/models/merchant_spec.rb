@@ -21,6 +21,25 @@ RSpec.describe Merchant, type: :model do
 
       expect(merchant.favorite_customer).to eq(cust_2)
     end
+    it "#customers_with_pending_invoices returns list of customers" do
+      merchant = create(:merchant)
+      other_merchant = create(:merchant)
+      cust_1, cust_2, cust_3, cust_4 = create_list(:customer, 4)
+      inv_1 = create(:invoice, customer: cust_1, merchant: merchant)
+      inv_2 = create(:invoice, customer: cust_1, merchant: merchant)
+      inv_3 = create(:invoice, customer: cust_2, merchant: merchant)
+      inv_4 = create(:invoice, customer: cust_3, merchant: merchant)
+      inv_5 = create(:invoice, customer: cust_4, merchant: other_merchant)
+
+      create(:transaction, invoice: inv_1, result: "failed")
+      create(:transaction, invoice: inv_2, result: "success")
+      create(:transaction, invoice: inv_3, result: "failed")
+      create(:transaction, invoice: inv_4, result: "failed")
+      create(:transaction, invoice: inv_4, result: "success")
+      create(:transaction, invoice: inv_5, result: "failed")
+
+      expect(merchant.customers_with_pending_invoices).to eq([cust_1, cust_2])
+    end
   end
   describe "class methods" do
     it ".most_revenue returns merchants with most revenue" do

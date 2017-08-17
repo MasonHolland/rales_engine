@@ -27,4 +27,7 @@ class Merchant < ApplicationRecord
                 .group("invoices.created_at")
                 .where("invoices.created_at = ?", date)[0]["total_revenue"]
   end
+  def customers_with_pending_invoices
+    
+  end
 end
