@@ -10,6 +10,9 @@ Rails.application.routes.draw do
           #business intelligence
           get ':id/revenue',    to: 'merchants/revenue#show'
           get 'most_items', to: 'merchants/most_items#index'
+          get ':id/favorite_customer', to: 'merchants/favorite_customer#show'
+          get 'most_revenue', to: 'merchants/most_revenue#index'
+          get 'revenue', to: 'merchants/revenue_by_date#index'
         end
       end
       resources :customers, only: [:show, :index], controller: "customers/customers" do
@@ -38,6 +41,7 @@ Rails.application.routes.draw do
           get ':id/merchant',      to: 'items/merchant#show'
           #business intelligence
           get 'most_items',    to: 'items/most_items#index'
+          get 'most_revenue', to: 'items/most_revenue#index'
         end
       end
       resources :invoices, only: [:show, :index], controller: "invoices/invoices" do
