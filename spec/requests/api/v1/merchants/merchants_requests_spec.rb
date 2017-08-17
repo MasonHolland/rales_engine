@@ -192,7 +192,8 @@ describe "merchants API" do
     get "/api/v1/merchants/revenue?date=15_May_2017"
 
     expect(response).to be_success
-    revenue = JSON.parse(response.body)["data"]
+    revenue = JSON.parse(response.body)
+
     expect(revenue["total_revenue"]).to eq("200.0")
   end
   xit "returns collection of customers with pending invoices" do
