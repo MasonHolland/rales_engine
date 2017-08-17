@@ -11,4 +11,14 @@ describe 'merchant relationships api', type: :request do
       expect(response).to be_success
       expect(result.count).to eq(5)
     end
+    it 'returns a collection of the merchants invices' do
+      merchant = create(:merchant)
+      create_list(:invoice, 5, merchant: merchant)
+
+      get "/api/v1/merchants/#{merchant.id}/invoices"
+      result = JSON.parse(response.body)["data"]
+
+      expect(response).to be_success
+      expect(result.count).to eq(5)
+    end
   end
