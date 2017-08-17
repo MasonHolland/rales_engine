@@ -32,7 +32,6 @@ describe "InvoiceItems API" do
   end
   it "finds one invoice_item by invoice_id" do
     invoice_id = create(:invoice).id
-    create(:invoice_item, invoice_id: invoice_id)
     id = create(:invoice_item, invoice_id: invoice_id).id
     get "/api/v1/invoice_items/find?invoice_id=#{invoice_id}"
 
@@ -42,7 +41,6 @@ describe "InvoiceItems API" do
   end
   it "finds one invoice_item by item_id" do
     item_id = create(:item).id
-    create(:invoice_item, item_id: item_id)
     id = create(:invoice_item, item_id: item_id).id
     get "/api/v1/invoice_items/find?item_id=#{item_id}"
 

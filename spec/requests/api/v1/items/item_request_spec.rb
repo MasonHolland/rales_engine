@@ -53,7 +53,6 @@ describe "Item API" do
   end
   it "finds one item by merchant_id" do
     create_list(:merchant, 2)
-    create(:item, merchant: Merchant.second)
     id = create(:item, merchant: Merchant.second).id
     get "/api/v1/items/find?merchant_id=#{Merchant.second.id}"
 
