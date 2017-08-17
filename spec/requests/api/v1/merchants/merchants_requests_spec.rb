@@ -209,4 +209,29 @@ describe "merchants API" do
     revenue = JSON.parse(response.body)
     expect(revenue["total_revenue"]).to eq("200.0")
   end
+  it "returns collection of customers with pending invoices" do
+    merchant = create(:merchant)
+    other_merchant = create(:merchant)
+    cust_1, cust_2, cust_3, cust_4 = create_list(:customer, 4)
+    inv_1 = create(:invoice, customer: cust_1, merchant: merchant)
+    inv_2 = create(:invoice, customer: cust_1, merchant: merchant)
+    inv_3 = create(:invoice, customer: cust_2, merchant: merchant)
+    inv_4 = create(:invoice, customer: cust_3, merchant: merchant)
+    inv_5 = create(:invoice, customer: cust_4, merchant: other_merchant)
+
+    create(:transaction, invoice: inv_1, result: "failed")
+    create(:transaction, invoice: inv_2, result: "success")
+    create(:transaction, invoice: inv_3, result: "failed")
+    create(:transaction, invoice: inv_4, result: "failed")
+    create(:transaction, invoice: inv_4, result: "success")
+    create(:transaction, invoice: inv_5, result: "failed")
+
+    get "/api/v1/merchants/:id/customers_with_pending_invoices"
+
+    expect(response).to be_success
+    customers = JSON.parse(response.body)
+    expect(customers.count).to eq(2)
+    expect(customer.first["id"]).to eq(cust_1.id)
+    expect(customer.last["id"]).to eq(cust_2.id)
+  end
 end
