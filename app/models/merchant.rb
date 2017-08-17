@@ -9,7 +9,11 @@ class Merchant < ApplicationRecord
             .group("id")
             .order("count DESC")
             .first
-
+  end
+  def customers_with_pending_invoices
+    Customer.select("customers.*")
+            .joins(invoices: :transactions)
+            .merge(Invoice.unpaid)
   end
 
   def self.most_revenue(quantity)
@@ -26,8 +30,5 @@ class Merchant < ApplicationRecord
                 .joins(:invoice)
                 .group("invoices.created_at")
                 .where("invoices.created_at = ?", date)[0]["total_revenue"]
-  end
-  def customers_with_pending_invoices
-    
   end
 end

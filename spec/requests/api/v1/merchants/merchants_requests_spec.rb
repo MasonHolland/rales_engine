@@ -209,7 +209,7 @@ describe "merchants API" do
     revenue = JSON.parse(response.body)
     expect(revenue["total_revenue"]).to eq("200.0")
   end
-  it "returns collection of customers with pending invoices" do
+  xit "returns collection of customers with pending invoices" do
     merchant = create(:merchant)
     other_merchant = create(:merchant)
     cust_1, cust_2, cust_3, cust_4 = create_list(:customer, 4)
