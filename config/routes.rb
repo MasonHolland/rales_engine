@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :customers, only: [:show, :index], controller: "customers/customers" do
         collection do
           get ':id/invoices', to: 'customers/invoices#index'
+          get ':id/transactions', to: 'customers/transactions#index'
           get 'find',     to: 'customers/find#show'
           get 'find_all', to: 'customers/find#index'
           get 'random',   to: 'customers/random#show'
