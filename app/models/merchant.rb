@@ -18,6 +18,15 @@ class Merchant < ApplicationRecord
             .group("id")
             .order("revenue DESC")
             .take(quantity)
+
+  end
+
+  def self.revenue_by_date(date)
+    InvoiceItem.select("sum(unit_price * quantity) AS total_revenue")
+                .joins(:invoice)
+                .group("invoices.created_at")
+                .where("invoices.created_at = ?", date)[0].as_json(:except => :id)
+    #works except revenue value needs to be formatted as string; maybe serializer will help with this
   end
 
 end

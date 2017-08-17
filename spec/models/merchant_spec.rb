@@ -37,5 +37,14 @@ RSpec.describe Merchant, type: :model do
 
       expect(Merchant.most_revenue(2)).to eq([merch_1, merch_2])
     end
+    it "revenue_by_date returns total revenue for that date" do
+      inv_1, inv_2 = create_list(:invoice, 2, created_at: "15 May 2017")
+      inv_3 = create(:invoice, created_at: "16 May 2017")
+      create_list(:invoice_item, 4, invoice: inv_1, quantity: 5, unit_price: 5)
+      create_list(:invoice_item, 4, invoice: inv_2, quantity: 5, unit_price: 5)
+      create_list(:invoice_item, 4, invoice: inv_3, quantity: 5, unit_price: 5)
+
+      expect(Merchant.revenue_by_date("15 May 2017")["total_revenue"]).to eq(200)
+    end
   end
 end
