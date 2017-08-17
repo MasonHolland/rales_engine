@@ -9,7 +9,7 @@ describe 'invoice relationships api', type: :request do
       end
 
       get "/api/v1/invoices/#{invoice.id}/transactions"
-      result = JSON.parse(response.body)
+      result = JSON.parse(response.body)["data"]
 
       expect(response).to be_success
       expect(result.count).to eq(5)
@@ -24,7 +24,7 @@ describe 'invoice relationships api', type: :request do
       end
 
       get "/api/v1/invoices/#{invoice.id}/invoice_items"
-      result = JSON.parse(response.body)
+      result = JSON.parse(response.body)["data"]
 
       expect(response).to be_success
       expect(result.count).to eq(5)
@@ -39,7 +39,7 @@ describe 'invoice relationships api', type: :request do
       end
 
       get "/api/v1/invoices/#{invoice.id}/items"
-      result = JSON.parse(response.body)
+      result = JSON.parse(response.body)["data"]
 
       expect(response).to be_success
       expect(result.count).to eq(5)
@@ -52,10 +52,10 @@ describe 'invoice relationships api', type: :request do
       invoice = create(:invoice, customer_id: customer.id)
 
       get "/api/v1/invoices/#{invoice.id}/customer"
-      result = JSON.parse(response.body)
+      result = JSON.parse(response.body)["data"]
 
       expect(response).to be_success
-      expect(result["id"]).to eq(customer.id)
+      expect(result["id"]).to eq(customer.id.to_s)
     end
   end
 
@@ -65,10 +65,10 @@ describe 'invoice relationships api', type: :request do
       invoice = create(:invoice, merchant_id: merchant.id)
 
       get "/api/v1/invoices/#{invoice.id}/merchant"
-      result = JSON.parse(response.body)
+      result = JSON.parse(response.body)["data"]
 
       expect(response).to be_success
-      expect(result["id"]).to eq(merchant.id)
+      expect(result["id"]).to eq(merchant.id.to_s)
     end
   end
 end

@@ -8,9 +8,10 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
-    expect(exchange["id"]).to eq(transaction.id)
-    expect(exchange["credit_card_number"]).to eq(transaction.credit_card_number)
+    exchange = JSON.parse(response.body)["data"]
+
+    expect(exchange["id"]).to eq(transaction.id.to_s)
+    expect(exchange["attributes"]["credit-card-number"]).to eq(transaction.credit_card_number)
   end
 
   it "it sends a list of transactions" do
@@ -20,9 +21,9 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
     expect(exchange.count).to eq(5)
-    expect(exchange.first["id"]).to eq(transactions.first.id)
+    expect(exchange.first["id"]).to eq(transactions.first.id.to_s)
   end
 
   it "sends a record when provided with an id" do
@@ -32,9 +33,9 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
 
-    expect(exchange["id"]).to eq(transaction.id)
+    expect(exchange["id"]).to eq(transaction.id.to_s)
   end
 
   it "sends a record when provided with an invoice id" do
@@ -44,9 +45,9 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
 
-    expect(exchange["id"]).to eq(transaction.id)
+    expect(exchange["id"]).to eq(transaction.id.to_s)
   end
 
   it "sends a record when provided with a credit card number" do
@@ -56,10 +57,10 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
 
-    expect(exchange["id"]).to eq(transaction.id)
-    expect(exchange["credit_card_number"]).to eq(transaction.credit_card_number)
+    expect(exchange["id"]).to eq(transaction.id.to_s)
+    expect(exchange["attributes"]["credit-card-number"]).to eq(transaction.credit_card_number)
   end
 
 
@@ -70,10 +71,10 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
 
-    expect(exchange["id"]).to eq(transaction.id)
-    expect(exchange["result"]).to eq(transaction.result)
+    expect(exchange["id"]).to eq(transaction.id.to_s)
+    expect(exchange["attributes"]["result"]).to eq(transaction.result)
   end
 
   it "sends a record when provided with a created_at date" do
@@ -83,9 +84,9 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
 
-    expect(exchange["id"]).to eq(transaction.id)
+    expect(exchange["id"]).to eq(transaction.id.to_s)
   end
 
   it "sends a record when provided with an updated at date" do
@@ -95,9 +96,9 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
 
-    expect(exchange["id"]).to eq(transaction.id)
+    expect(exchange["id"]).to eq(transaction.id.to_s)
   end
 
   it "sends all applicable results when provided with an id" do
@@ -108,10 +109,10 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchanges = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)["data"]
 
     expect(exchanges.count).to eq(1)
-    expect(exchanges.first["id"]).to eq(transaction.id)
+    expect(exchanges.first["id"]).to eq(transaction.id.to_s)
   end
 
   it "sends all applicable results when provided with an invoice id" do
@@ -124,11 +125,11 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchanges = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)["data"]
 
     expect(exchanges.count).to eq(2)
-    expect(exchanges.first["id"]).to eq(transaction_1.id)
-    expect(exchanges.last["id"]).to eq(transaction_2.id)
+    expect(exchanges.first["id"]).to eq(transaction_1.id.to_s)
+    expect(exchanges.last["id"]).to eq(transaction_2.id.to_s)
   end
 
   it "sends all applicable results when provided with a credit card number" do
@@ -140,11 +141,11 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchanges = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)["data"]
 
     expect(exchanges.count).to eq(2)
-    expect(exchanges.first["id"]).to eq(transaction_1.id)
-    expect(exchanges.last["id"]).to eq(transaction_2.id)
+    expect(exchanges.first["id"]).to eq(transaction_1.id.to_s)
+    expect(exchanges.last["id"]).to eq(transaction_2.id.to_s)
   end
 
   it "sends all applicable results when provided with a result" do
@@ -156,11 +157,11 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchanges = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)["data"]
 
     expect(exchanges.count).to eq(2)
-    expect(exchanges.first["id"]).to eq(transaction_1.id)
-    expect(exchanges.last["id"]).to eq(transaction_2.id)
+    expect(exchanges.first["id"]).to eq(transaction_1.id.to_s)
+    expect(exchanges.last["id"]).to eq(transaction_2.id.to_s)
   end
 
   it "sends all applicable results when provided with a case sensitive result" do
@@ -172,11 +173,11 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchanges = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)["data"]
 
     expect(exchanges.count).to eq(2)
-    expect(exchanges.first["id"]).to eq(transaction_1.id)
-    expect(exchanges.last["id"]).to eq(transaction_2.id)
+    expect(exchanges.first["id"]).to eq(transaction_1.id.to_s)
+    expect(exchanges.last["id"]).to eq(transaction_2.id.to_s)
   end
 
   it "sends all applicable results when provided with a created at date" do
@@ -188,11 +189,11 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchanges = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)["data"]
 
     expect(exchanges.count).to eq(2)
-    expect(exchanges.first["id"]).to eq(transaction_1.id)
-    expect(exchanges.last["id"]).to eq(transaction_2.id)
+    expect(exchanges.first["id"]).to eq(transaction_1.id.to_s)
+    expect(exchanges.last["id"]).to eq(transaction_2.id.to_s)
   end
 
   it "sends all applicable results when provided with an updated at date" do
@@ -204,10 +205,10 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchanges = JSON.parse(response.body)
+    exchanges = JSON.parse(response.body)["data"]
     expect(exchanges.count).to eq(2)
-    expect(exchanges.first["id"]).to eq(transaction_1.id)
-    expect(exchanges.last["id"]).to eq(transaction_2.id)
+    expect(exchanges.first["id"]).to eq(transaction_1.id.to_s)
+    expect(exchanges.last["id"]).to eq(transaction_2.id.to_s)
   end
 
   it "returns a random record" do
@@ -217,7 +218,7 @@ describe "transaction API" do
 
     expect(response).to be_success
 
-    exchange = JSON.parse(response.body)
+    exchange = JSON.parse(response.body)["data"]
 
     expect(exchange.count).to eq(1)
   end

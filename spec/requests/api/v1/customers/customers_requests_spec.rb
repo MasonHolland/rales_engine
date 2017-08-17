@@ -8,9 +8,9 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patron = JSON.parse(response.body)
+    patron = JSON.parse(response.body)["data"]
 
-    expect(patron["id"]).to eq(customer.id)
+    expect(patron["id"]).to eq(customer.id.to_s)
   end
 
   it "sends a list of customers" do
@@ -20,7 +20,7 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patrons = JSON.parse(response.body)
+    patrons = JSON.parse(response.body)["data"]
 
     expect(patrons.count).to eq(5)
   end
@@ -33,10 +33,10 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patron = JSON.parse(response.body)
+    patron = JSON.parse(response.body)["data"]
 
-    expect(patron["id"]).to eq(customer_1.id)
-    expect(patron["first_name"]).to eq("Paul")
+    expect(patron["id"]).to eq(customer_1.id.to_s)
+    expect(patron["attributes"]["first-name"]).to eq("Paul")
   end
 
   it "sends a record when provided with a first name" do
@@ -46,10 +46,10 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patron = JSON.parse(response.body)
+    patron = JSON.parse(response.body)["data"]
 
-    expect(patron["id"]).to eq(customer.id)
-    expect(patron["first_name"]).to eq("Sam")
+    expect(patron["id"]).to eq(customer.id.to_s)
+    expect(patron["attributes"]["first-name"]).to eq("Sam")
   end
 
   it "sends a record when provided with a last name" do
@@ -59,10 +59,10 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patron = JSON.parse(response.body)
+    patron = JSON.parse(response.body)["data"]
 
-    expect(patron["id"]).to eq(customer.id)
-    expect(patron["last_name"]).to eq("Volsung")
+    expect(patron["id"]).to eq(customer.id.to_s)
+    expect(patron["attributes"]["last-name"]).to eq("Volsung")
   end
 
   it "sends a record when provided a created_at date" do
@@ -72,10 +72,10 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patron = JSON.parse(response.body)
+    patron = JSON.parse(response.body)["data"]
 
-    expect(patron["id"]).to eq(customer.id)
-    expect(patron["first_name"]).to eq(customer.first_name)
+    expect(patron["id"]).to eq(customer.id.to_s)
+    expect(patron["attributes"]["first-name"]).to eq(customer.first_name)
   end
 
   it "sends a record when provided an updated_at date" do
@@ -85,9 +85,9 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patron = JSON.parse(response.body)
+    patron = JSON.parse(response.body)["data"]
 
-    expect(patron["id"]).to eq(customer.id)
+    expect(patron["id"]).to eq(customer.id.to_s)
   end
 
   it "sends all relevant records when provided with an id" do
@@ -98,9 +98,9 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patrons = JSON.parse(response.body)
+    patrons = JSON.parse(response.body)["data"]
 
-    expect(patrons.first["id"]).to eq(customer_1.id)
+    expect(patrons.first["id"]).to eq(customer_1.id.to_s)
   end
 
   it "sends all relevant records when provided with a first name" do
@@ -112,15 +112,15 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patrons = JSON.parse(response.body)
+    patrons = JSON.parse(response.body)["data"]
 
     expect(patrons.count).to eq(2)
-    expect(patrons.first["id"]).to eq(customer_1.id)
-    expect(patrons.first["first_name"]).to eq("Paul")
-    expect(patrons.first["last_name"]).to eq("Hogan")
-    expect(patrons.last["id"]).to eq(customer_2.id)
-    expect(patrons.last["first_name"]).to eq("Paul")
-    expect(patrons.last["last_name"]).to eq("Phoenix")
+    expect(patrons.first["id"]).to eq(customer_1.id.to_s)
+    expect(patrons.first["attributes"]["first-name"]).to eq("Paul")
+    expect(patrons.first["attributes"]["last-name"]).to eq("Hogan")
+    expect(patrons.last["id"]).to eq(customer_2.id.to_s)
+    expect(patrons.last["attributes"]["first-name"]).to eq("Paul")
+    expect(patrons.last["attributes"]["last-name"]).to eq("Phoenix")
   end
 
   it "sends all relevant records when provided with a last name" do
@@ -133,16 +133,16 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patrons = JSON.parse(response.body)
+    patrons = JSON.parse(response.body)["data"]
 
     expect(patrons.count).to eq(3)
 
-    expect(patrons.first["id"]).to eq(customer_1.id)
-    expect(patrons.first["first_name"]).to eq("Heihachi")
-    expect(patrons.first["last_name"]).to eq("Mishima")
-    expect(patrons.last["id"]).to eq(customer_3.id)
-    expect(patrons.last["first_name"]).to eq("Jin")
-    expect(patrons.last["last_name"]).to eq("Mishima")
+    expect(patrons.first["id"]).to eq(customer_1.id.to_s)
+    expect(patrons.first["attributes"]["first-name"]).to eq("Heihachi")
+    expect(patrons.first["attributes"]["last-name"]).to eq("Mishima")
+    expect(patrons.last["id"]).to eq(customer_3.id.to_s)
+    expect(patrons.last["attributes"]["first-name"]).to eq("Jin")
+    expect(patrons.last["attributes"]["last-name"]).to eq("Mishima")
   end
 
   it "sends all relevant records when provided a created_at date" do
@@ -155,11 +155,11 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patrons = JSON.parse(response.body)
+    patrons = JSON.parse(response.body)["data"]
 
     expect(patrons.count).to eq(3)
-    expect(patrons.first["id"]).to eq(customer_2.id)
-    expect(patrons.last["id"]).to eq(customer_4.id)
+    expect(patrons.first["id"]).to eq(customer_2.id.to_s)
+    expect(patrons.last["id"]).to eq(customer_4.id.to_s)
     end
 
   it "sends all relevant records when provided an updated_at date" do
@@ -172,11 +172,11 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patrons = JSON.parse(response.body)
+    patrons = JSON.parse(response.body)["data"]
 
     expect(patrons.count).to eq(3)
-    expect(patrons.first["id"]).to eq(customer_2.id)
-    expect(patrons.last["id"]).to eq(customer_4.id)
+    expect(patrons.first["id"]).to eq(customer_2.id.to_s)
+    expect(patrons.last["id"]).to eq(customer_4.id.to_s)
   end
 
   it "returns a random entry" do
@@ -186,7 +186,7 @@ describe "customers API" do
 
     expect(response).to be_success
 
-    patron = JSON.parse(response.body)
+    patron = JSON.parse(response.body)["data"]
 
     expect(patron.count).to eq(1)
   end

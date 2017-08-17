@@ -7,7 +7,7 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
     expect(invoices.count).to eq(3)
   end
   it "sends a single invoice by id" do
@@ -17,8 +17,8 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoice = JSON.parse(response.body)
-    expect(invoice["id"]).to eq(id)
+    invoice = JSON.parse(response.body)["data"]
+    expect(invoice["id"]).to eq(id.to_s)
   end
   it "finds one invoice by customer_id" do
     create_list(:customer, 2)
@@ -28,9 +28,9 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoice = JSON.parse(response.body)
-    
-    expect(invoice["id"]).to eq(id)
+    invoice = JSON.parse(response.body)["data"]
+
+    expect(invoice["id"]).to eq(id.to_s)
   end
   it "finds one invoice by merchant_id" do
     create_list(:merchant, 2)
@@ -40,8 +40,8 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoice = JSON.parse(response.body)
-    expect(invoice["id"]).to eq(id)
+    invoice = JSON.parse(response.body)["data"]
+    expect(invoice["id"]).to eq(id.to_s)
   end
   it "finds one invoice by status" do
     id = create(:invoice, status: "shipped").id
@@ -50,8 +50,8 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoice = JSON.parse(response.body)
-    expect(invoice["id"]).to eq(id)
+    invoice = JSON.parse(response.body)["data"]
+    expect(invoice["id"]).to eq(id.to_s)
   end
   it "finds one invoice by created_at" do
     id = create(:invoice, created_at: "15 May 2017").id
@@ -60,8 +60,8 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoice = JSON.parse(response.body)
-    expect(invoice["id"]).to eq(id)
+    invoice = JSON.parse(response.body)["data"]
+    expect(invoice["id"]).to eq(id.to_s)
   end
   it "finds one invoice by updated_at" do
     id = create(:invoice, updated_at: "15 May 2017").id
@@ -70,8 +70,8 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoice = JSON.parse(response.body)
-    expect(invoice["id"]).to eq(id)
+    invoice = JSON.parse(response.body)["data"]
+    expect(invoice["id"]).to eq(id.to_s)
   end
   it "finds multiple invoices by customer_id" do
     create_list(:customer, 2)
@@ -81,9 +81,9 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
     expect(invoices.count).to eq(3)
-    expect(invoices.sample["customer_id"]).to eq(Customer.first.id)
+    expect(invoices.sample["attributes"]["customer-id"]).to eq(Customer.first.id)
   end
   it "finds multiple invoices by merchant_id" do
     create_list(:merchant, 2)
@@ -93,9 +93,9 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
     expect(invoices.count).to eq(3)
-    expect(invoices.sample["merchant_id"]).to eq(Merchant.first.id)
+    expect(invoices.sample["attributes"]["merchant-id"]).to eq(Merchant.first.id)
   end
   it "finds multiple invoices by status" do
     create_list(:invoice, 3, status: "shipped")
@@ -104,9 +104,9 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
     expect(invoices.count).to eq(3)
-    expect(invoices.sample["status"]).to eq("shipped")
+    expect(invoices.sample["attributes"]["status"]).to eq("shipped")
   end
   it "finds multiple invoices by status" do
     create_list(:invoice, 3, status: "shipped")
@@ -115,9 +115,10 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
     expect(invoices.count).to eq(3)
-    expect(invoices.sample["status"]).to eq("shipped")
+
+    expect(invoices.sample["attributes"]["status"]).to eq("shipped")
   end
   it "finds multiple invoices by created_at" do
     create_list(:invoice, 3, created_at: "15 May 2017")
@@ -126,7 +127,7 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
     expect(invoices.count).to eq(3)
   end
   it "finds multiple invoices by updated_at" do
@@ -136,7 +137,7 @@ describe "Invoice API" do
 
     expect(response).to be_success
 
-    invoices = JSON.parse(response.body)
+    invoices = JSON.parse(response.body)["data"]
     expect(invoices.count).to eq(3)
   end
   it "finds a random invoice" do
@@ -145,7 +146,7 @@ describe "Invoice API" do
     get "/api/v1/invoices/random.json"
 
     expect(response).to be_success
-    invoice = JSON.parse(response.body)
+    invoice = JSON.parse(response.body)["data"]
     expect(invoice.count).to eq(1)
   end
 end
