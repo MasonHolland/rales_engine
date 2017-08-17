@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :merchants, only: [:show, :index], controller: "merchants/merchants" do
-        get
         collection do
           get 'find', to: 'merchants/find#show'
           get 'find_all', to: 'merchants/find#index'
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
           get 'find', to: 'customers/find#show'
           get 'find_all', to: 'customers/find#index'
           get 'random', to: 'customers/random#show'
+          get 'favorite_merchant', to: 'customers/favorite_merchant#show'
         end
       end
       resources :transactions, only: [:show, :index], controller: "transactions/transactions" do
