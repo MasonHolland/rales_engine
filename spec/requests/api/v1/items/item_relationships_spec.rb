@@ -9,7 +9,7 @@ describe 'item relationships api', type: :request do
       end
 
       get "/api/v1/items/#{item.id}/invoice_items.json"
-      result = JSON.parse(response.body)
+      result = JSON.parse(response.body)["data"]
 
       expect(response).to be_success
       expect(result.count).to eq(5)
@@ -22,10 +22,10 @@ describe 'item relationships api', type: :request do
       item = create(:item, merchant_id: merchant.id)
 
       get "/api/v1/items/#{item.id}/merchant.json"
-      result = JSON.parse(response.body)
+      result = JSON.parse(response.body)["data"]
 
       expect(response).to be_success
-      expect(result["name"]).to eq(merchant.name)
+      expect(result["id"]).to eq(merchant.id.to_s)
     end
   end
 end

@@ -7,7 +7,7 @@ describe "Item API" do
 
     expect(response).to be_success
 
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(3)
   end
   it "gets one item by its id" do
@@ -16,8 +16,8 @@ describe "Item API" do
 
     expect(response).to be_success
 
-    item = JSON.parse(response.body)
-    expect(item["id"]).to eq(id)
+    item = JSON.parse(response.body)["data"]
+    expect(item["id"]).to eq(id.to_s)
   end
   it "finds one item by name" do
     id = create(:item, name: "tv").id
@@ -26,8 +26,8 @@ describe "Item API" do
 
     expect(response).to be_success
 
-    item = JSON.parse(response.body)
-    expect(item["id"]).to eq(id)
+    item = JSON.parse(response.body)["data"]
+    expect(item["id"]).to eq(id.to_s)
   end
   it "finds one item by description" do
     create(:item)
@@ -37,8 +37,8 @@ describe "Item API" do
 
     expect(response).to be_success
 
-    item = JSON.parse(response.body)
-    expect(item["id"]).to eq(id)
+    item = JSON.parse(response.body)["data"]
+    expect(item["id"]).to eq(id.to_s)
   end
   it "finds one item by unit_price" do
     create(:item)
@@ -48,8 +48,8 @@ describe "Item API" do
 
     expect(response).to be_success
 
-    item = JSON.parse(response.body)
-    expect(item["id"]).to eq(id)
+    item = JSON.parse(response.body)["data"]
+    expect(item["id"]).to eq(id.to_s)
   end
   it "finds one item by merchant_id" do
     create_list(:merchant, 2)
@@ -58,8 +58,8 @@ describe "Item API" do
 
     expect(response).to be_success
 
-    item = JSON.parse(response.body)
-    expect(item["id"]).to eq(id)
+    item = JSON.parse(response.body)["data"]
+    expect(item["id"]).to eq(id.to_s)
   end
   it "finds one item by created_at" do
     id = create(:item, created_at: "15 May 2017").id
@@ -67,8 +67,8 @@ describe "Item API" do
     get "/api/v1/items/find?created_at=15 May 2017"
 
     expect(response).to be_success
-    item = JSON.parse(response.body)
-    expect(item["id"]).to eq(id)
+    item = JSON.parse(response.body)["data"]
+    expect(item["id"]).to eq(id.to_s)
   end
   it "finds one item by updated_at" do
     id = create(:item, updated_at: "15 May 2017").id
@@ -76,8 +76,8 @@ describe "Item API" do
     get "/api/v1/items/find?updated_at=15 May 2017"
 
     expect(response).to be_success
-    item = JSON.parse(response.body)
-    expect(item["id"]).to eq(id)
+    item = JSON.parse(response.body)["data"]
+    expect(item["id"]).to eq(id.to_s)
   end
   it "finds multiple items by name" do
     create_list(:item, 3, name: "tv")
@@ -85,9 +85,8 @@ describe "Item API" do
     get "/api/v1/items/find_all?name=tv"
 
     expect(response).to be_success
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(3)
-    expect(items.sample["name"]).to eq("tv")
   end
   it "finds multiple items by description" do
     create_list(:item, 3, description: "a really great item")
@@ -95,9 +94,8 @@ describe "Item API" do
     get "/api/v1/items/find_all?description=a really great item"
 
     expect(response).to be_success
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(3)
-    expect(items.sample["description"]).to eq("a really great item")
   end
   it "finds multiple items by unit_price" do
     create_list(:item, 3, unit_price: 6.99)
@@ -105,9 +103,8 @@ describe "Item API" do
     get "/api/v1/items/find_all?unit_price=6.99"
 
     expect(response).to be_success
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(3)
-    expect(items.sample["unit_price"]).to eq(6.99)
   end
   it "finds multiple items by merchant_id" do
     create_list(:merchant, 2)
@@ -116,9 +113,8 @@ describe "Item API" do
     get "/api/v1/items/find_all?merchant_id=#{Merchant.first.id}"
 
     expect(response).to be_success
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(3)
-    expect(items.sample["merchant_id"]).to eq(Merchant.first.id)
   end
   it "finds multiple items by created_at" do
     create_list(:item, 3, created_at: "15 May 2017")
@@ -126,7 +122,7 @@ describe "Item API" do
     get "/api/v1/items/find_all?created_at=15 May 2017"
 
     expect(response).to be_success
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(3)
   end
   it "finds multiple items by updated_at" do
@@ -135,7 +131,7 @@ describe "Item API" do
     get "/api/v1/items/find_all?updated_at=15 May 2017"
 
     expect(response).to be_success
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(3)
   end
   it "finds a random item" do
@@ -144,7 +140,7 @@ describe "Item API" do
     get "/api/v1/items/random.json"
 
     expect(response).to be_success
-    item = JSON.parse(response.body)
+    item = JSON.parse(response.body)["data"]
     expect(item.count).to eq(1)
   end
   it "most_revenue returns items with highest revenue" do
@@ -156,9 +152,9 @@ describe "Item API" do
     get "/api/v1/items/most_revenue?quantity=2"
 
     expect(response).to be_success
-    items = JSON.parse(response.body)
+    items = JSON.parse(response.body)["data"]
     expect(items.count).to eq(2)
-    expect(items.first["id"]).to eq(item_2.id)
-    expect(items.last["id"]).to eq(item_3.id)
+    expect(items.first["id"]).to eq(item_2.id.to_s)
+    expect(items.last["id"]).to eq(item_3.id.to_s)
   end
 end
