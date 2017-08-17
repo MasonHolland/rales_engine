@@ -196,4 +196,17 @@ describe "merchants API" do
     expect(merchants.first["id"]).to eq(merch_1.id)
     expect(merchants.last["id"]).to eq(merch_2.id)
   end
+  it "sends total revenue by date for all merchants" do
+    inv_1, inv_2 = create_list(:invoice, 2, created_at: "15 May 2017")
+    inv_3 = create(:invoice, created_at: "16 May 2017")
+    create_list(:invoice_item, 4, invoice: inv_1, quantity: 5, unit_price: 5)
+    create_list(:invoice_item, 4, invoice: inv_2, quantity: 5, unit_price: 5)
+    create_list(:invoice_item, 4, invoice: inv_3, quantity: 5, unit_price: 5)
+
+    get "/api/v1/merchants/revenue?date=15_May_2017"
+
+    expect(response).to be_success
+    revenue = JSON.parse(response.body)
+    expect(revenue).to eq(200)
+  end
 end
