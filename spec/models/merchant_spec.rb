@@ -44,7 +44,7 @@ RSpec.describe Merchant, type: :model do
       create_list(:invoice_item, 4, invoice: inv_2, quantity: 5, unit_price: 5)
       create_list(:invoice_item, 4, invoice: inv_3, quantity: 5, unit_price: 5)
 
-      expect(Merchant.revenue_by_date("15 May 2017")["total_revenue"]).to eq(200)
+      expect(Merchant.revenue_by_date("15 May 2017")).to eq(200)
     end
   end
 end
