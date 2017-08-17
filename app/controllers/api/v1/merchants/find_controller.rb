@@ -1,15 +1,11 @@
 class Api::V1::Merchants::FindController < ApplicationController
 
   def show
-    render json: Merchant.find_by(search_params).as_json(
-      only: [:id, :name]
-    )
+    render json: Merchant.find_by(search_params)
   end
 
   def index
-    render json: Merchant.where(search_params).as_json(
-      only: [:id, :name]
-    )
+    render json: Merchant.where(search_params)
   end
 
   private

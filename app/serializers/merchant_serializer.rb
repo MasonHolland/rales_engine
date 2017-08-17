@@ -1,7 +1,5 @@
 class MerchantSerializer < ActiveModel::Serializer
-  attributes :id, :name, :total_revenue
+  attributes :id, :name
 
-  def total_revenue(date)
-    object.revenue_by_date(date)
-  end
+
 end
