@@ -1,6 +1,6 @@
 class Api::V1::Transactions::InvoicesController < ApplicationController
 
-  def index
+  def show
     render json: Transaction.find(params[:id]).invoice
   end
 end
