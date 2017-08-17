@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       resources :merchants, only: [:show, :index], controller: "merchants/merchants" do
         get 'revenue', to: 'merchants/revenue#show'
         collection do
+          get ':id/items', to: 'merchants/items#index'
+          get ':id/invoices', to: 'merchants/invoices#index'
           get 'find',     to: 'merchants/find#show'
           get 'find_all', to: 'merchants/find#index'
           get 'random',   to: 'merchants/random#show'
@@ -19,6 +21,8 @@ Rails.application.routes.draw do
       end
       resources :customers, only: [:show, :index], controller: "customers/customers" do
         collection do
+          get ':id/invoices', to: 'customers/invoices#index'
+          get ':id/transactions', to: 'customers/transactions#index'
           get 'find',     to: 'customers/find#show'
           get 'find_all', to: 'customers/find#index'
           get 'random',   to: 'customers/random#show'
@@ -28,6 +32,7 @@ Rails.application.routes.draw do
       end
       resources :transactions, only: [:show, :index], controller: "transactions/transactions" do
         collection do
+          get ':id/invoice', to: 'transactions/invoices#show'
           get 'find',     to: 'transactions/find#show'
           get 'find_all', to: 'transactions/find#index'
           get 'random',   to: 'transactions/random#show'
