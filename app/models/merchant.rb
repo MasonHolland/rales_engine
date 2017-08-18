@@ -45,14 +45,14 @@ class Merchant < ApplicationRecord
             .first
   end
   def customers_with_pending_invoices
-    Customer.find_by_sql "SELECT DISTINCT * FROM customers INNER JOIN
-                                        (SELECT invoices.*, COUNT(transactions.id) FROM invoices
+    Customer.find_by_sql "SELECT customers.* FROM customers INNER JOIN
+                                        (SELECT invoices.* FROM invoices
                                         INNER JOIN transactions
                                         ON invoices.id=transactions.invoice_id
                                         WHERE result='failed'
                                         GROUP BY invoices.id
                                         EXCEPT
-                                        SELECT invoices.*, COUNT(transactions.id)  FROM invoices
+                                        SELECT invoices.* FROM invoices
                                         INNER JOIN transactions
                                         ON invoices.id=transactions.invoice_id
                                         WHERE result='success'

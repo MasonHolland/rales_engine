@@ -37,9 +37,9 @@ RSpec.describe Merchant, type: :model do
       create(:transaction, invoice: inv_4, result: "failed")
       create(:transaction, invoice: inv_4, result: "success")
       create(:transaction, invoice: inv_5, result: "failed")
-
+      
       expect(merchant.customers_with_pending_invoices.count).to eq(2)
-      expect(merchant.customers_with_pending_invoices.pluck(:first_name)).to eq([cust_1.first_name, cust_2.first_name])
+      expect(merchant.customers_with_pending_invoices).to eq([cust_1, cust_2])
     end
   end
   describe "class methods" do
