@@ -45,9 +45,21 @@ class Merchant < ApplicationRecord
             .first
   end
   def customers_with_pending_invoices
-    Customer.select("customers.*")
-            .joins(invoices: :transactions)
-            .merge(Invoice.unpaid)
+    Customer.find_by_sql "SELECT DISTINCT * FROM customers INNER JOIN
+                                        (SELECT invoices.*, COUNT(transactions.id) FROM invoices
+                                        INNER JOIN transactions
+                                        ON invoices.id=transactions.invoice_id
+                                        WHERE result='failed'
+                                        GROUP BY invoices.id
+                                        EXCEPT
+                                        SELECT invoices.*, COUNT(transactions.id)  FROM invoices
+                                        INNER JOIN transactions
+                                        ON invoices.id=transactions.invoice_id
+                                        WHERE result='success'
+                                        GROUP BY invoices.id)
+                                        AS pending_invoices
+                                        ON customers.id=pending_invoices.customer_id
+                                        WHERE merchant_id=#{self.id}"
   end
 
   def self.most_revenue(quantity)
