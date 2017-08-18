@@ -49,7 +49,7 @@ RSpec.describe Merchant, type: :model do
       expect(merchant.total_revenue(Date.today.to_s)).to eq(3.0)
     end
 
-    xit "#customers_with_pending_invoices returns list of customers" do
+    it "#customers_with_pending_invoices returns list of customers" do
       merchant = create(:merchant)
       other_merchant = create(:merchant)
       cust_1, cust_2, cust_3, cust_4 = create_list(:customer, 4)
@@ -66,7 +66,8 @@ RSpec.describe Merchant, type: :model do
       create(:transaction, invoice: inv_4, result: "success")
       create(:transaction, invoice: inv_5, result: "failed")
 
-      expect(merchant.customers_with_pending_invoices).to eq([cust_1, cust_2])
+      expect(merchant.customers_with_pending_invoices.count).to eq(2)
+      expect(merchant.customers_with_pending_invoices).to include(cust_1, cust_2)
     end
   end
   describe "class methods" do
