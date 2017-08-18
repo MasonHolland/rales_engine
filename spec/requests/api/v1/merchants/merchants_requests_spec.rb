@@ -196,6 +196,15 @@ describe "merchants API" do
 
     expect(revenue["total_revenue"]).to eq("200.0")
   end
+
+  it "sends the merchant with the most items" do
+    merchant = create(:merchant)
+    invoice = create(:invoice, merchant_id: merchant.id)
+    inv_item_1, inv_item_2, inv_item_3 = create_list(:invoice_item, 3, invoice_id: invoice.id)
+    transaction = create(:transaction, invoice_id: invoice.id)
+
+  end
+
   xit "returns collection of customers with pending invoices" do
     merchant = create(:merchant)
     other_merchant = create(:merchant)

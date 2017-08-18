@@ -21,6 +21,34 @@ RSpec.describe Merchant, type: :model do
 
       expect(merchant.favorite_customer).to eq(cust_2)
     end
+
+    it "#successful_invoices returns a collection of invoices with success result" do
+      merchant = create(:merchant)
+      invoice = create(:invoice, merchant_id: merchant.id)
+      inv_item_1, inv_item_2 = create_list(:invoice_item, 2, invoice_id: invoice.id)
+      transaction = create(:transaction, result: "success", invoice_id: invoice.id)
+
+      expect(merchant.successful_invoices).to eq([invoice, invoice])
+    end
+
+    it "#total_revenue returns a float with the total revenue from a single merchant" do
+      merchant = create(:merchant)
+      invoice = create(:invoice, merchant_id: merchant.id)
+      inv_item_1, inv_item_2 = create_list(:invoice_item, 2, invoice_id: invoice.id)
+      transaction = create(:transaction, result: "success", invoice_id: invoice.id)
+
+      expect(merchant.total_revenue).to eq(3.0)
+    end
+
+    it "#total_revenue returns a float with the total revenue from a single merchant when supplied with a date" do
+      merchant = create(:merchant)
+      invoice = create(:invoice, merchant_id: merchant.id, created_at: Date.today.to_s)
+      inv_item_1, inv_item_2 = create_list(:invoice_item, 2, invoice_id: invoice.id)
+      transaction = create(:transaction, result: "success", invoice_id: invoice.id)
+
+      expect(merchant.total_revenue(Date.today.to_s)).to eq(3.0)
+    end
+
     xit "#customers_with_pending_invoices returns list of customers" do
       merchant = create(:merchant)
       other_merchant = create(:merchant)
@@ -64,6 +92,25 @@ RSpec.describe Merchant, type: :model do
       create_list(:invoice_item, 4, invoice: inv_3, quantity: 5, unit_price: 5)
 
       expect(Merchant.revenue_by_date("15 May 2017")).to eq(200)
+    end
+
+    it ".most_items returns merchant with most items" do
+      merchant = create(:merchant)
+      invoice = create(:invoice, merchant_id: merchant.id)
+      inv_item_1, inv_item_2, inv_item_3 = create_list(:invoice_item, 3, invoice_id: invoice.id)
+      transaction = create(:transaction, invoice_id: invoice.id)
+
+      expect(Merchant.most_items(1).to_a).to eq([merchant])
+    end
+
+    it ".customers_favorite_merchant returns merchant object" do
+      merchant = create(:merchant)
+      customer = create(:customer)
+      invoice = create(:invoice, merchant_id: merchant.id, customer_id: customer.id)
+      inv_item_1, inv_item_2, inv_item_3 = create_list(:invoice_item, 3, invoice_id: invoice.id)
+      transaction = create(:transaction, invoice_id: invoice.id)
+
+      expect(Merchant.customers_favorite_merchant(customer.id)).to eq(merchant)
     end
   end
 end
