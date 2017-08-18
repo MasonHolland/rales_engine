@@ -22,7 +22,7 @@ RSpec.describe Merchant, type: :model do
       expect(merchant.favorite_customer).to eq(cust_2)
     end
 
-    it "#success_invoices returns a collection of invoices with success result" do
+    it "#successful_invoices returns a collection of invoices with success result" do
       merchant = create(:merchant)
       invoice = create(:invoice, merchant_id: merchant.id)
       inv_item_1, inv_item_2 = create_list(:invoice_item, 2, invoice_id: invoice.id)
@@ -94,13 +94,23 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.revenue_by_date("15 May 2017")).to eq(200)
     end
 
-    it ".most_items returns ??" do
+    it ".most_items returns merchant with most items" do
       merchant = create(:merchant)
       invoice = create(:invoice, merchant_id: merchant.id)
       inv_item_1, inv_item_2, inv_item_3 = create_list(:invoice_item, 3, invoice_id: invoice.id)
       transaction = create(:transaction, invoice_id: invoice.id)
 
       expect(Merchant.most_items(1).to_a).to eq([merchant])
+    end
+
+    it ".customers_favorite_merchant returns merchant object" do
+      merchant = create(:merchant)
+      customer = create(:customer)
+      invoice = create(:invoice, merchant_id: merchant.id, customer_id: customer.id)
+      inv_item_1, inv_item_2, inv_item_3 = create_list(:invoice_item, 3, invoice_id: invoice.id)
+      transaction = create(:transaction, invoice_id: invoice.id)
+
+      expect(Merchant.customers_favorite_merchant(customer.id)).to eq(merchant)
     end
   end
 end
