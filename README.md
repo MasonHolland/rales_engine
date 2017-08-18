@@ -1,26 +1,63 @@
 # README
 
-Create an API to serve up sales data.
+# Rales Engine
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rales Engine is an API that exposes a database with customer, merchant, sales information.
 
-Things you may want to cover:
+## Getting Started
 
-* Ruby version
+After cloning down the repo, please follow the instructions for installing and seeding the database.
 
-* System dependencies
+### Prerequisites
 
-* Configuration
 
-* Database creation
+```
+Ruby 2.4.1
+```
 
-* Database initialization
+### Installing
 
-* How to run the test suite
+Setup
 
-* Services (job queues, cache servers, search engines, etc.)
+Run Bundle
 
-* Deployment instructions
+```
+bundle install
+```
 
-* ...
+Load the DB Schema
+
+```
+rake db:schema:load
+```
+
+Seed the database
+
+```
+rake import:all
+```
+
+## Running the tests
+
+Simply run rspec in the root folder of the project via console.
+
+```
+rspec
+```
+
+## Deployment
+
+Rales Engine is currently not deployed.
+
+## Built With
+
+* [Ruby on Rails](http://rubyonrails.org/)
+
+## Database
+
+* [image](https://files.slack.com/files-pri/T029P2S9M-F5MJHL1LN/pasted_image_at_2017_05_31_03_47_pm.png)
+
+## Authors
+
+* **Mason Holland**
+* **Ellen Cooper**
