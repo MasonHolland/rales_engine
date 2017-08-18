@@ -32,7 +32,13 @@ namespace :import do
     file = File.read('./db/data/items.csv')
     csv = CSV.parse(file, :headers => true)
     csv.each do |row|
-      item = Item.create!(row.to_hash)
+      item = Item.create!(
+        name: row["name"],
+        description: row["description"],
+        unit_price: row["unit_price"].to_f/100,
+        merchant_id: row["merchant_id"],
+        created_at: row["created_at"],
+        updated_at: row["updated_at"])
       puts "created item #{item.id}"
     end
   end
@@ -50,7 +56,13 @@ namespace :import do
     file = File.read('./db/data/invoice_items.csv')
     csv = CSV.parse(file, :headers => true)
     csv.each do |row|
-      invoice_item = InvoiceItem.create!(row.to_hash)
+      invoice_item = InvoiceItem.create!(
+        item_id: row["item_id"],
+        invoice_id: row["invoice_id"],
+        quantity: row["quantity"],
+        unit_price: row["unit_price"].to_f/100,
+        created_at: row["created_at"],
+        updated_at: row["updated_at"])
       puts "created invoice_item #{invoice_item.id}"
     end
   end

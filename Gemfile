@@ -16,9 +16,12 @@ gem 'puma', '~> 3.7'
 # gem 'jbuilder', '~> 2.5'
 gem 'rspec-rails'
 gem 'factory_girl_rails'
+gem 'active_model_serializers', '~> 0.10.0'
 
 group :development, :test do
   gem 'pry'
+  gem 'shoulda-matchers'
+  gem 'byebug'
 end
 
 group :development do
