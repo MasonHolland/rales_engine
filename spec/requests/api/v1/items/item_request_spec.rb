@@ -32,7 +32,7 @@ describe "Item API" do
   it "finds one item by description" do
     create(:item)
     id = create(:item, description: "the best item of all items").id
-    create(:item, description: "the best item of all items")
+    create(:item, description: "the best item of all item")
     get "/api/v1/items/find?description=the best item of all items"
 
     expect(response).to be_success

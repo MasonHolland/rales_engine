@@ -49,6 +49,7 @@ Rails.application.routes.draw do
           #business intelligence
           get 'most_items',    to: 'items/most_items#index'
           get 'most_revenue', to: 'items/most_revenue#index'
+          get ':id/best_day', to: 'items/best_day#show'
         end
       end
       resources :invoices, only: [:show, :index], controller: "invoices/invoices" do
