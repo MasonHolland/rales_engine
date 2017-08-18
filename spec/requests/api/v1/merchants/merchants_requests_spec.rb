@@ -196,7 +196,7 @@ describe "merchants API" do
 
     expect(revenue["total_revenue"]).to eq("200.0")
   end
-  xit "returns collection of customers with pending invoices" do
+  it "returns collection of customers with pending invoices" do
     merchant = create(:merchant)
     other_merchant = create(:merchant)
     cust_1, cust_2, cust_3, cust_4 = create_list(:customer, 4)
@@ -218,7 +218,6 @@ describe "merchants API" do
     expect(response).to be_success
     customers = JSON.parse(response.body)["data"]
     expect(customers.count).to eq(2)
-    expect(customer.first["id"]).to eq(cust_1.id.to_s)
-    expect(customer.last["id"]).to eq(cust_2.id.to_s)
+    expect([customers.first["id"], customers.last["id"]]).to include(cust_1.id.to_s, cust_1.id.to_s)
   end
 end
